@@ -2,9 +2,11 @@ import playsound
 import pyaudio
 import speech_recognition as sr
 import pyttsx3
+import os, json
 from gtts import gTTS
 from vosk import Model, KaldiRecognizer
-import os, json
+import datetime
+
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -26,13 +28,13 @@ def resposta(texto):
 resposta("inicializando")
 
 def ouvir_comando():
-    rec.pause_threshold = 1
-    data = stream.read(10000)
+    # rec.pause_threshold = 1
+    data = stream.read(20000)
     rec.AcceptWaveform(data)
 
     result = rec.Result()
     result = json.loads(result)
-    Input = str(result['text']).lower()
+    Input = str(result['text'])
 
 
     return Input
@@ -45,4 +47,11 @@ while True:
     if Input is not None:
         if "olá" in Input:
             resposta("Oi, tudo bem ?")
+
+        if "horas" in Input:
+            data_hour = datetime.datetime.now()
+            resposta(f"são {data_hour.hour} Horas e {data_hour.minute} minutos")
+
+
+
 
