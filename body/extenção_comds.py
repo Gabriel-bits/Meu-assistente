@@ -1,5 +1,4 @@
-import pygame
-from pygame.locals import*
+from pygame import mixer
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -104,21 +103,23 @@ def extract_ativi():
             resposta(f"{ativi['data']}")
         n += 1
 
-def escam_music(dire):
+
+def escam_music():
     """
     Escania as musicas
     """
+    list_musicas = []
     n = 0
-    loca_m = 'C:/Users/Narutinn/Music/Bot/'
-    for root, folder, filer_names in os.walk(loca_m + dire):
-        list_musicas = filer_names
-    print(list_musicas)
-    print(n)
-    n += len(list_musicas)
-    return list_musicas, n
+    loca_m = 'C:\\Users\\Narutinn\\Documents\\Meus projetos\\Meu assistente\\music'
+    for root, folder, filer_names in os.walk(loca_m):
+        for files in filer_names:
+            list_musicas.append(root + os.sep + files)
+            print(list_musicas)
+
+    return list_musicas
 
 def music_lo_fi():
-    pygame.mixer.init()
+    mixer.init()
 
     lista_de_musica, n = escam_music("lo fi/")
     print(lista_de_musica)
@@ -130,11 +131,6 @@ def music_lo_fi():
     playlist1.append('C:/Users/Narutinn/Music/Bot/lo fi/blind.mp3')
 
 
-    pygame.mixer.music.load(playlist1.pop())
-    pygame.mixer.music.queue(playlist1.pop())
-    print(playlist1)
-    
-    pygame.mixer.music.play()
     # while True:
     # for song in lista_de_musica:
     #     print(str(song))
@@ -148,21 +144,21 @@ def music_lo_fi():
     #m = pygame.mixer.music.queue("C:/Users/Narutinn/Music/Bot/lo fi/Alignment.mp3")   
     
 def music_rock():
-    pygame.mixer.init()
-    mu = pygame.mixer.music.load(f"{loca_m}rock/")
-    mu = pygame.mixer.music.play(1)
+    mixer.init()
+    mu = mixer.music.load(f"{loca_m}rock/")
+    mu = mixer.music.play(1)
 
 def music_ale():
 
-    pygame.mixer.init()
-    mu = pygame.mixer.music.load(f"{loca_m}ale/")
-    mu = pygame.mixer.music.play(1)
+    mixer.init()
+    mu = mixer.music.load(f"{loca_m}ale/")
+    mu = mixer.music.play(1)
 
 def music_ambie():
 
-    pygame.mixer.init()
-    mu = pygame.mixer.music.load(f"{loca_m}ambiente/")
-    mu = pygame.mixer.music.play(1)
+    mixer.init()
+    mu = mixer.music.load(f"{loca_m}ambiente/")
+    mu = mixer.music.play(1)
 
 
 #=-=======================================================================================================================-=#
@@ -185,7 +181,7 @@ class Music_on_():
         self.drive.find_element_by_class_name('ytp-ad-skip-button').click()
         # drive.find_element_by_id('ad-text:7').click()
 
-    def music_rock_on():
+    def music_rock_on(self):
         
         drive = brawser()
         drive.get("https://youtube.com/playlist?list=PLk5YoXhDDcAZWxiX9ZJ8az-jpBZ-PB8MU")
@@ -194,16 +190,16 @@ class Music_on_():
         time.sleep(8)
         drive.find_element_by_class_name('ytp-ad-skip-button').click()
 
-    def music_ale_on():
+    def music_ale_on(self):
         
-        drive = brawser()
+        drive = self.drive
         drive.get("https://youtube.com/playlist?list=PLk5YoXhDDcAamIqdQoMXIUyCqa91Z3L-9")
         time.sleep(2)
         drive.find_element_by_xpath("""//*[@id="items"]/ytd-playlist-sidebar-primary-info-renderer/ytd-playlist-thumbnail""").click()
         time.sleep(8)
         drive.find_element_by_class_name('ytp-ad-skip-button').click()
 
-    def music_ambiente_on():
+    def music_ambiente_on(self):
         
         drive = brawser()
         drive.get("https://youtube.com/playlist?list=PLk5YoXhDDcAYC-LjueGVJrW8O5EoACKfQ")
@@ -220,10 +216,7 @@ class Music_on_():
 
 
 if __name__ == "__main__":
-    music_lo_fi_on()
-
-    while True:
-        1
+    mixer.init()
 
 
 # C:/Users/Narutinn/Music/Bot

@@ -9,12 +9,14 @@ import os, json, datetime, asyncio
 from fuct import*
 
 
-class Assitent():
+class Assistent():
     """
     Corpo do bot
     """
     def __init__(self):
         print("Assistente on")
+        self.__NOME = 'azul'
+        self.estado = True
         
         # try:
 
@@ -23,7 +25,7 @@ class Assitent():
         #     self.estado = "on"
 
         # except Exception as err:
-        #     self.ouvido = ouvir_comando()
+        self.__ouvido = ouvir_comando()
         #     resposta('devido a falta de NET, vou utilizar o sistema offline')
         #     resposta('então, devido a esta usando o sistema offline, o reconhecimeto vai ser afetado de forma negativa')
         #     self.estado = "off"
@@ -31,15 +33,14 @@ class Assitent():
 
         # self.Input = ouvir_comando_on()
 
-    def descanço():
+    def descanço(self):
         while True:
             Input = ouvir_comando()
-            if Input in ("sexta", "sexta feira"):
+            if self.__NOME in Input:
                 resposta('acordei!')
                 return
             if Input in ("desligar","desliga","finalizar"):
-                sys.exit()
-
+                sys.exit()  
 
     def comandos(self):
 
@@ -50,26 +51,40 @@ class Assitent():
         #     self.Input = ouvir_comando_on()
         # else:
         #     pass
-        self.Input = ouvir_comando_on()
+        self.Input = ouvir_comando()
 
         print(self.Input)
         print(1)
         
         #-= comandos base =-#
 
+        #// Nome
+        if 'seu nome' in self.Input:
+            resposta(f'Meu nome e {self.__NOME}')
+
         #// Suspender
         if 'descansa' in self.Input: 
             resposta('to indo, qualquer coisa e so chamar. vou ficar atenta.')
-            Assitent.descanço()
+            Assistent.descanço()
         
         #// Verificar
-        elif self.Input in ("oi", "olá", "Oi"): 
+        elif self.Input in ("oi", "olá", "Oi", self.__NOME): 
             resposta("Oi, tudo bem?")
 
         #// Horas
         elif "quantas horas" in self.Input: 
-            data_hour = datetime.datetime.now()
-            resposta(f"são {data_hour.hour} Horas e {data_hour.minute} minutos")
+            horas = datetime.datetime.now()
+            resposta(f"são {horas.hour} Horas e {horas.minute} minutos")
+
+        #// Data atual
+        elif "data de hoje" in self.Input:
+            data = datetime.datetime.now()
+            resposta(f" hoje e dia {data.day} do mes {data.month}")
+
+        #// Ano atual
+        elif "ano atual" in self.Input:
+            data = datetime.datetime.now()
+            resposta(f" estamos no ano de {data.year}")
 
 
         #-= comandos música =-#
@@ -97,9 +112,32 @@ class Assitent():
 
         #-= comandos web =-#
 
+
+        ##
+
+
+        #-= execução de apps =-#
+
         #// Teste
         elif 'teste' in self.Input: 
-            resposta('comando inacabado')
+            resposta('1,2,3 testando. Meu audio esta funcionando !')
+
+        #// Meu navegador
+        elif self.Input in ('o google', 'google'):
+            resposta('abrindo o navegador')
+            os.startfile('C:\\Users\\Narutinn\\AppData\\Local\\Programs\\Opera GX\\75.0.3969.279\\opera.exe', "open")
+
+        #// Spotify
+        elif self.Input in ('aplicativo verde', 'spotify'):
+            resposta('abrindo o Spotify')
+            os.startfile('C:\\Users\\Narutinn\\AppData\\Roaming\\Spotify\\Spotify.exe', 'open')
+
+        #// Discord
+        elif self.Input in ('aplicativo azul', 'discordia', 'discórdia'):
+            resposta('abrindo o Discord')
+            os.startfile('C:\\Users\\Narutinn\\AppData\\Local\\Discord\\Update.exe', 'open')
+
+        #-= Aleatorios =-#
 
         #// Encerrar o assistente
         elif 'desliga' in self.Input: 
@@ -110,6 +148,10 @@ class Assitent():
         elif 'procurar atividade' in self.Input: 
             atividades_base()
 
-        #//  Falar atividades
+        #// Falar atividades
         elif 'atividades encontradas' in self.Input: 
             extract_ativi()            
+
+        #// Encerra
+        elif self.estado == False:
+            sys.exit()

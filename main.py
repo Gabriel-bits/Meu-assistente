@@ -1,33 +1,54 @@
+import threading
+import sys
 import speech_recognition as sr
-from vosk import Model, KaldiRecognizer
-from gtts import gTTS
-import pyaudio
-import pyttsx3
-import os, json
-import datetime
-from fuct import*
-
+import asyncio, tracemalloc, time
+from PyQt5 import uic,QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
+tracemalloc.start()
 
 # -=- Foldes import -=- #
 
-from body.head import Assitent
+from fuct import*
+from body.head import Assistent
 
 # -=- ======+====== -=- #
 
-Assisten = Assitent()
+Assistent = Assistent()
+app = QtWidgets.QApplication([])
 
-while True:
-    try:
-        Assisten.comandos()
+def encerra():
+    Assistent.estado = False
+    app.quit()
 
-    except sr.UnknownValueError:
-        print("\r")
-        pass
-        
-    except Exception as er:
-        resposta("ocorreu um erro senhor.")
-        resposta(f"o erro foi... {er}")
-        print(f"tai o {er}")
-        pass
-    # Assisten.comandos()
+async def janela():
+    interface = uic.loadUi('interface.ui')
+    interface.pushButton.clicked.connect(encerra)
+    interface.show()
+    app.exec()
+
+
+def inicio():
+
+    while True:
+
+        try:
+            Assistent.comandos()
+                
+
+        except sr.UnknownValueError:
+            print("\r")
+            pass
+            
+        except Exception as er:
+            resposta("ocorreu um erro senhor.")
+            resposta(f"o erro foi... {er}")
+            print(f"*+[ {er} ]+*")
+            pass
+        # Assisten.comandos()
+# inicio()
+threading.Thread(target=inicio).start()
+asyncio.run(janela())
+
+# threading.Thread(target=inicio, )
+# asyncio.run(inicio())
 

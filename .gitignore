@@ -2,3 +2,8 @@
 *.pyc
 __pycache__/fuct.cpython-37.pyc
 __pycache__/fuct.cpython-37.pyc
+/__pycache__/
+body/__pycache__/
+*.pyc
+agenda/
+.vscode/
